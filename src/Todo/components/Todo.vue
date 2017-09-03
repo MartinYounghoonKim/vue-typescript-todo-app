@@ -1,5 +1,5 @@
 <template>
-<li class="todo">
+<li :class="{ completed:todo.isDone, todo }">
     <div class="view">
         <input type="checkbox" class="toggle" v-model="todo.isDone">
         <label>{{ todo.name }}</label> 
