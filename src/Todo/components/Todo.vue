@@ -3,7 +3,7 @@
     <div class="view">
         <input type="checkbox" class="toggle" v-model="todo.isDone">
         <label>{{ todo.name }}</label> 
-        <button class="destroy"></button>
+        <button class="destroy" @click="deleteTodo"></button>
     </div> 
     <input type="text" class="edit">
 </li>
@@ -13,6 +13,11 @@ export default{
     name: 'Todo',
     props: {
         todo: Object
+    },
+    methods :{
+        deleteTodo (e) {
+            this.$emit('deleteTodo', this.todo.key);
+        }
     }
 }
 </script>

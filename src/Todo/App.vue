@@ -6,6 +6,7 @@
 			/>
 			<todo-list
 				:todos="todos"
+				@deleteTodo="deleteTodo"
 			/>
       <app-footer/>
     </div>
@@ -43,6 +44,10 @@ export default {
 			const key = Date.now();
 			const isDone = false;
 			this.todos = [...this.todos, { key, name, isDone }];
+		},
+		deleteTodo (targetKey) {
+			const deleteTargetKey=this.todos.findIndex( v => targetKey === v.key );
+			this.todos.splice(deleteTargetKey, 1);
 		}
 	},
   components: {

@@ -6,6 +6,7 @@
             v-for="todo in todos"
             :todo="todo"
             :key="todos.key"
+            @deleteTodo="deleteTodo"
         />
     </ul>
 </section>
@@ -20,6 +21,11 @@ export default{
     },
     components: {
         Todo
+    },
+    methods: {
+        deleteTodo (deleteTargetKey) {
+            this.$emit('deleteTodo', deleteTargetKey);
+        }
     }
 }
 </script>
