@@ -7,6 +7,8 @@
             :todo="todo"
             :key="todos.key"
             @deleteTodo="deleteTodo"
+            @checkTodo="checkTodo"
+            @editTodo="editTodo"
         />
     </ul>
 </section>
@@ -25,6 +27,12 @@ export default{
     methods: {
         deleteTodo (deleteTargetKey) {
             this.$emit('deleteTodo', deleteTargetKey);
+        },
+        checkTodo (isDone, id) {
+            this.$emit('completedTodo', isDone, id);
+        },
+        editTodo (editedTodo, id) {
+            this.$emit('editTodo', editedTodo, id)
         }
     }
 }

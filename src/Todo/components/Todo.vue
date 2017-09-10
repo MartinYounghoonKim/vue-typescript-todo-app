@@ -1,8 +1,15 @@
 <template>
 <li :class="{ completed:todo.isDone, todo }">
     <div class="view">
-        <input type="checkbox" class="toggle" v-model="todo.isDone">
-        <label>{{ todo.name }}</label> 
+        <input 
+            type="checkbox" 
+            class="toggle" 
+            v-model="todo.isDone" 
+            @click="checkeTodo" 
+        >
+        <label
+            @dblclick="editTodo"
+        >{{ todo.todo }}</label> 
         <button class="destroy" @click="deleteTodo"></button>
     </div> 
     <input type="text" class="edit">
@@ -16,7 +23,13 @@ export default{
     },
     methods :{
         deleteTodo (e) {
-            this.$emit('deleteTodo', this.todo.key);
+            this.$emit('deleteTodo', this.todo.id);
+        },
+        checkeTodo (e){
+            this.$emit("checkTodo", this.todo.isDone, this.todo.id);
+        },
+        editTodo (){
+            console.log(1);
         }
     }
 }

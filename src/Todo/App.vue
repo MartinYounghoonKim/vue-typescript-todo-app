@@ -7,6 +7,8 @@
 			<todo-list
 				:todos="todos"
 				@deleteTodo="deleteTodo"
+				@completedTodo="completedTodo"
+				@editTodo= "editTodo"
 			/>
       <app-footer/>
     </div>
@@ -17,37 +19,61 @@
 import AppHeader from './components/Header.vue';
 import AppFooter from './components/Footer.vue';
 import TodoList from './components/TodoList.vue';
+import TodoApi from './test.js';
+
 export default {
   name: 'app',
   data () {
     return {
-			todos: [
-					{
-							key: 0,
-							name: '투두앱1',
-							isDone: true
-					},{
-							key: 1,
-							name: '투두앱2',
-							isDone: false
-					},{
-							key: 2,
-							name: '투두앱3',
-							isDone: false
-					}
-			]
+			todos: []
     }
+	},
+	beforeMount (){
+			TodoApi.get(`/`)
+      .then((result) => {
+				this.todos = result.data;
+      })
 	},
 	methods: {
 		addTodo (text) {
-			const name = text;
-			const key = Date.now();
-			const isDone = false;
-			this.todos = [...this.todos, { key, name, isDone }];
+			TodoApi.post(`/`,{
+				todo: text
+			})
+			.then((result)=>{
+				this.todos = [...this.todos, result.data];
+			})
+		},
+		editTodo (editedTodo, id) {
+			console.log(editedTodo+ '/'+ id);
 		},
 		deleteTodo (targetKey) {
-			const deleteTargetKey=this.todos.findIndex( v => targetKey === v.key );
-			this.todos.splice(deleteTargetKey, 1);
+			const deleteTargetKey=this.todos.findIndex( v => targetKey === v.id );
+
+			TodoApi.delete(`/${targetKey}`)
+			.then((result)=>{
+				if(result.status===200){
+					this.todos.splice(deleteTargetKey, 1);
+				}
+			})
+			.catch((err)=>{
+				console.log(err)
+			})
+		},
+		completedTodo (checked, id) {
+			const isDone = checked;
+			const primayKey = id;
+			
+			TodoApi.put(`/${primayKey}`,{
+				isDone: isDone
+			})
+			.then((res)=>{
+				if(res.status===200) {
+					console.log("Check Success");
+				}
+			})
+			.catch((err)=>{
+				console.log(err)
+			})
 		}
 	},
   components: {

@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-		<h1>todos</h1>
+		<h1>Vue Test</h1>
 		<input autofocus="autofocus" autocomplete="off" placeholder="What needs to be done?" class="new-todo" @keydown.enter="add">
     </div>
 </template>
