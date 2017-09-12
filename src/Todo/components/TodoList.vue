@@ -8,7 +8,8 @@
             :key="todos.key"
             @deleteTodo="deleteTodo"
             @checkTodo="checkTodo"
-            @editTodo="editTodo"
+            @editingTodo="editingTodo"
+            :isEditing="isEditing"
         />
     </ul>
 </section>
@@ -18,6 +19,11 @@ import Todo from './Todo.vue';
 
 export default{
     name: 'TodoList',
+    data () {
+        return {
+            isEditing: false
+        }
+    },
     props: {
         todos: Array
     },
@@ -31,8 +37,8 @@ export default{
         checkTodo (isDone, id) {
             this.$emit('completedTodo', isDone, id);
         },
-        editTodo (editedTodo, id) {
-            this.$emit('editTodo', editedTodo, id)
+        editingTodo (editedTodo, id) {
+            //this.$emit('editTodo', editedTodo, id)
         }
     }
 }

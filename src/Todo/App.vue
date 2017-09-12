@@ -1,16 +1,20 @@
 <template>
   <div id="app">
     <div class="todoapp">
-      <app-header
-				@addTodo="addTodo"
-			/>
-			<todo-list
-				:todos="todos"
-				@deleteTodo="deleteTodo"
-				@completedTodo="completedTodo"
-				@editTodo= "editTodo"
-			/>
-      <app-footer/>
+    	<app-header
+			@addTodo="addTodo"
+		/>
+		<todo-list
+			:todos="todos"
+			@deleteTodo="deleteTodo"
+			@completedTodo="completedTodo"
+			@editTodo= "editTodo"
+		/>
+		<app-footer
+			:todoFilters="todoFilters"
+			:currentLocation="currentLocation"
+			@changeLocation="changeLocation"
+		/>
     </div>
   </div>
 </template>
@@ -19,20 +23,26 @@
 import AppHeader from './components/Header.vue';
 import AppFooter from './components/Footer.vue';
 import TodoList from './components/TodoList.vue';
-import TodoApi from './test.js';
+import TodoApi from './api/api_core.js';
 
 export default {
   name: 'app',
   data () {
-    return {
-			todos: []
-    }
+		return {
+			todos: [],
+			currentLocation: window.location.pathname,
+			todoFilters: [
+				'/all',
+                '/active',
+                '/completed'
+			]
+		}
 	},
 	beforeMount (){
-			TodoApi.get(`/`)
-      .then((result) => {
-				this.todos = result.data;
-      })
+		TodoApi.get(`/`)
+		.then((result) => {
+			this.todos = result.data;
+		});
 	},
 	methods: {
 		addTodo (text) {
@@ -41,6 +51,7 @@ export default {
 			})
 			.then((result)=>{
 				this.todos = [...this.todos, result.data];
+				this.currentLocation = '/test'
 			})
 		},
 		editTodo (editedTodo, id) {
@@ -74,6 +85,15 @@ export default {
 			.catch((err)=>{
 				console.log(err)
 			})
+		},
+		changeLocation (currentLocation) {
+			if(currentLocation.length<0) return false;
+			this.currentLocation = currentLocation;
+			window.history.pushState(
+				null,
+				'',
+				this.currentLocation
+			)
 		}
 	},
   components: {

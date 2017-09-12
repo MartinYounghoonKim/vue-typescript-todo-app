@@ -1,5 +1,5 @@
 <template>
-<li :class="{ completed:todo.isDone, todo }">
+<li :class="{ completed:todo.isDone, editing:this.isEditing, todo }">
     <div class="view">
         <input 
             type="checkbox" 
@@ -10,16 +10,23 @@
         <label
             @dblclick="editTodo"
         >{{ todo.todo }}</label> 
-        <button class="destroy" @click="deleteTodo"></button>
+        <button 
+            class="destroy" 
+            @click="deleteTodo"
+        ></button>
     </div> 
-    <input type="text" class="edit">
+    <input 
+        type="text" 
+        class="edit"
+    />
 </li>
 </template>
 <script>
 export default{
     name: 'Todo',
     props: {
-        todo: Object
+        todo: Object,
+        isEditing: Boolean
     },
     methods :{
         deleteTodo (e) {
@@ -29,7 +36,10 @@ export default{
             this.$emit("checkTodo", this.todo.isDone, this.todo.id);
         },
         editTodo (){
-            console.log(1);
+            console.log(this.todo.id)
+            //console.log(this.$el.)
+            //edinting
+            //this.$emit("editTodo", this.todo.id)
         }
     }
 }
@@ -48,9 +58,6 @@ export default{
                 padding: 0;
                 .edit {
                     display: block;
-                    width: 506px;
-                    padding: 13px 17px 12px 17px;
-                    margin: 0 0 0 43px;
                 }
                 .view {
                     display: none;
@@ -97,6 +104,25 @@ export default{
             }
             .edit {
                 display: none;
+                position: relative;
+                margin: 0;
+                width: 506px;
+                padding: 13px 17px 12px 17px;
+                margin: 0 0 0 43px;
+                font-size: 24px;
+                font-family: inherit;
+                font-weight: inherit;
+                line-height: 1.4em;
+                border: 0;
+                outline: none;
+                color: inherit;
+                padding: 6px;
+                border: 1px solid #999;
+                box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
+                box-sizing: border-box;
+                -webkit-font-smoothing: antialiased;
+                -moz-font-smoothing: antialiased;
+                font-smoothing: antialiased;
             }
             .toggle {
                 text-align: center;
