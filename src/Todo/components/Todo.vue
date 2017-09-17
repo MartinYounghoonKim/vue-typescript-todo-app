@@ -1,5 +1,9 @@
 <template>
-<li :class="{ completed:todo.isDone, editing:this.isEditing, todo }">
+<li 
+    :class="{ 
+        completed:todo.isDone, 
+        editing:this.isEditing, todo 
+    }">
     <div class="view">
         <input 
             type="checkbox" 
@@ -26,7 +30,8 @@ export default{
     name: 'Todo',
     props: {
         todo: Object,
-        isEditing: Boolean
+        isEditing: Boolean,
+        currentLocation: String
     },
     methods :{
         deleteTodo (e) {

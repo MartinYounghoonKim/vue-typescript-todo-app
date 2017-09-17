@@ -25,7 +25,8 @@ export default{
         }
     },
     props: {
-        todos: Array
+        todos: Array,
+        currentLocation: String
     },
     components: {
         Todo

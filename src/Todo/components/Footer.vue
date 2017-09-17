@@ -5,7 +5,6 @@
             <strong>1</strong> item left
         </span> 
         <ul class="filters">
-            <!-- TODO: :todoFilters 를 사용해볼것 -->
             <li v-for="filter in this.todoFilters">
                 <a :href="filter" :todoFilters="todoFilters" @click="changeLocation" :class="[filter == currentLocation ? 'selected' : '']">
                     {{filter.replace("/","").substring(0,1).toUpperCase() + filter.replace("/","").substring(1).toLowerCase()}}

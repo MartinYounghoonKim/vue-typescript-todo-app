@@ -5,10 +5,11 @@
 			@addTodo="addTodo"
 		/>
 		<todo-list
-			:todos="todos"
+			:todos="viewFilter"
 			@deleteTodo="deleteTodo"
 			@completedTodo="completedTodo"
 			@editTodo= "editTodo"
+			:currentLocation="currentLocation"
 		/>
 		<app-footer
 			:todoFilters="todoFilters"
@@ -36,6 +37,24 @@ export default {
                 '/active',
                 '/completed'
 			]
+		}
+	},
+	computed: {
+		viewFilter () {
+			return this.todos.filter(todo => {
+				switch(true){
+					case this.currentLocation === '/all' || this.currentLocation === '/' : 
+						return true;
+					break;
+					case this.currentLocation === '/active' && !todo.isDone : 
+						return true;
+					break;
+					case this.currentLocation === '/completed' && todo.isDone : 
+						return true;
+					break;
+				}
+				
+			})
 		}
 	},
 	beforeMount (){
