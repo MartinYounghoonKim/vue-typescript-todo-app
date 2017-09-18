@@ -5,11 +5,13 @@
 			@addTodo="addTodo"
 		/>
 		<todo-list
-			:todos="viewFilter"
+			:todos="viewTodos"
 			@deleteTodo="deleteTodo"
 			@completedTodo="completedTodo"
 			@editTodo= "editTodo"
 			:currentLocation="currentLocation"
+			:isToggleAll="isToggleAll"
+			@toggleAllTodo="toggleAllTodo"
 		/>
 		<app-footer
 			:todoFilters="todoFilters"
@@ -36,11 +38,12 @@ export default {
 				'/all',
                 '/active',
                 '/completed'
-			]
+			],
+			isToggleAll: null
 		}
 	},
 	computed: {
-		viewFilter () {
+		viewTodos () {
 			return this.todos.filter(todo => {
 				switch(true){
 					case this.currentLocation === '/all' || this.currentLocation === '/' : 
@@ -55,6 +58,10 @@ export default {
 				}
 				
 			})
+		},
+		isAllDone () {
+			this.isToggleAll = this.todos.every( todo=> todo.isDone === true );
+			console.log(this.isToggleAll)
 		}
 	},
 	beforeMount (){
@@ -113,12 +120,17 @@ export default {
 				'',
 				this.currentLocation
 			)
+		},
+		toggleAllTodo (toggleTodos) {
+			console.log()
+			const isDoneAll = !toggleTodos;
+			console.log(isDoneAll)
 		}
 	},
   components: {
     AppHeader,
-		AppFooter,
-		TodoList
+	AppFooter,
+	TodoList
   }
 }
 </script>

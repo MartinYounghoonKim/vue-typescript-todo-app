@@ -1,6 +1,12 @@
 <template>
 <section class="main">
-    <input type="checkbox" class="toggle-all">
+    <input 
+        type="checkbox" 
+        class="toggle-all"
+        :isAllDone="isAllDone"
+        :checked="isToggleAll"
+        @click="toggleAllTodo"
+    />
     <ul class="todo-list">
         <todo
             v-for="todo in todos"
@@ -26,7 +32,9 @@ export default{
     },
     props: {
         todos: Array,
-        currentLocation: String
+        currentLocation: String,
+        isAllDone: Boolean,
+        isToggleAll: Boolean
     },
     components: {
         Todo
@@ -40,6 +48,12 @@ export default{
         },
         editingTodo (editedTodo, id) {
             //this.$emit('editTodo', editedTodo, id)
+        },
+        toggleAllTodo (e) {
+            e.preventDefault();
+            const isChecked = !e.target.checked;
+
+            this.$emit('toggleAllTodo', isChecked)
         }
     }
 }
