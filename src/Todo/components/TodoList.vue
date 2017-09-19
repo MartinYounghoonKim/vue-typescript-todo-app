@@ -4,7 +4,7 @@
         type="checkbox" 
         class="toggle-all"
         @click="toggleAllTodo"
-        :checked = "todos.every(v=> v.isDone=== true)"
+        :checked = "todos.every(v=> v.isDone === true)"
     />
     <ul class="todo-list">
         <todo

@@ -76,7 +76,6 @@ export default {
 			})
 			.then((result)=>{
 				this.todos = [...this.todos, result.data];
-				this.currentLocation = '/test'
 			})
 		},
 		editTodo (editedTodo, id) {
