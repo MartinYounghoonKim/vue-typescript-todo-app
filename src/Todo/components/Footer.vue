@@ -2,7 +2,7 @@
 <div>
     <footer class="footer">
         <span class="todo-count">
-            <strong>1</strong> item left
+            <strong>{{ leftItems }}</strong> {{itemText}} left
         </span> 
         <ul class="filters">
             <li v-for="filter in this.todoFilters">
@@ -20,10 +20,13 @@ export default{
     name: 'Footer',
     props: {
         todoFilters: Array,
-        currentLocation: String
+        currentLocation: String,
+        leftItems: Number
     },
     computed: {
-        
+        itemText () {
+            return this.leftItems > 1 ? 'items' : 'item'
+        }
     },
     methods: {
        changeLocation (e) {

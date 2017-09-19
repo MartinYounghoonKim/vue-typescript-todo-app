@@ -16,6 +16,7 @@
 			:todoFilters="todoFilters"
 			:currentLocation="currentLocation"
 			@changeLocation="changeLocation"
+			:leftItems="this.todos.filter( v=> v.isDone === true ).length"
 		/>
     </div>
   </div>
@@ -57,10 +58,6 @@ export default {
 				}
 				
 			})
-		},
-		isAllDone () {
-			this.isToggleAll = this.todos.every( todo=> todo.isDone === true );
-			console.log(this.isToggleAll)
 		}
 	},
 	beforeMount (){
