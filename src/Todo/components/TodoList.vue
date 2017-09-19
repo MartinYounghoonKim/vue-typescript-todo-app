@@ -15,6 +15,8 @@
             @checkTodo="checkTodo"
             @editingTodo="editingTodo"
             :isEditing="isEditing"
+            @startEdit="startEdit"
+            @finishEdit="finishEdit"
         />
     </ul>
 </section>
@@ -26,7 +28,7 @@ export default{
     name: 'TodoList',
     data () {
         return {
-            isEditing: false
+            isEditing: ''
         }
     },
     props: {
@@ -45,6 +47,19 @@ export default{
         },
         editingTodo (editedTodo, id) {
             //this.$emit('editTodo', editedTodo, id)
+        },
+        startEdit (editingTarget) {
+            this.isEditing = editingTarget;
+        },
+        finishEdit (id, todo) {
+            const targetId = id;
+            const editedTodo = todo;
+
+            if(this.isEditing.length<=0){
+                return false;
+            }
+            this.$emit('editTodo', targetId, editedTodo);
+            this.isEditing = '';
         },
         toggleAllTodo (e) {
             const isChecked = !e.target.checked;

@@ -2,7 +2,8 @@
 <li 
     :class="{ 
         completed:todo.isDone, 
-        editing:this.isEditing, todo 
+        editing:this.isEditing == this.todo.id, 
+        todo 
     }">
     <div class="view">
         <input 
@@ -12,7 +13,7 @@
             @click="checkeTodo" 
         >
         <label
-            @dblclick="editTodo"
+            @dblclick="startEdit"
         >{{ todo.todo }}</label> 
         <button 
             class="destroy" 
@@ -20,8 +21,13 @@
         ></button>
     </div> 
     <input 
+        ref="editInput"
         type="text" 
         class="edit"
+        :value="this.todo.todo"
+        :focus="true"
+        @blur="finishEdit"
+        @keyup.13="finishEdit"
     />
 </li>
 </template>
@@ -30,7 +36,7 @@ export default{
     name: 'Todo',
     props: {
         todo: Object,
-        isEditing: Boolean,
+        isEditing: String,
         currentLocation: String
     },
     methods :{
@@ -39,6 +45,14 @@ export default{
         },
         checkeTodo (e){
             this.$emit("checkTodo", this.todo.isDone, this.todo.id);
+        },
+        startEdit () {
+            this.$emit('startEdit', this.todo.id);
+            setTimeout(()=> this.$refs.editInput.focus());
+        },
+        finishEdit (e) {
+            const editedText = e.target.value;
+            this.$emit('finishEdit', this.todo.id, editedText);
         },
         editTodo (){
             console.log(this.todo.id)

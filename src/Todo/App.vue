@@ -78,8 +78,13 @@ export default {
 				this.todos = [...this.todos, result.data];
 			})
 		},
-		editTodo (editedTodo, id) {
-			console.log(editedTodo+ '/'+ id);
+		editTodo (id, editedTodo ) {
+			TodoApi.put(`/${id}`, {
+				todo: editedTodo
+			})
+			.then((result)=>{
+				this.todos.splice(this.todos.findIndex(v => v.id === result.data.id), 1, result.data);
+			})
 		},
 		deleteTodo (targetKey) {
 			const deleteTargetKey=this.todos.findIndex( v => targetKey === v.id );
@@ -129,7 +134,6 @@ export default {
 			.then((result)=>{
 				this.todos = result.map(v=>v.data);
 			})
-
 		}
 	},
   components: {
