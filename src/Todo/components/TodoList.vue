@@ -3,9 +3,8 @@
     <input 
         type="checkbox" 
         class="toggle-all"
-        :isAllDone="isAllDone"
-        :checked="isToggleAll"
         @click="toggleAllTodo"
+        :checked = "todos.every(v=> v.isDone=== true)"
     />
     <ul class="todo-list">
         <todo
@@ -32,9 +31,7 @@ export default{
     },
     props: {
         todos: Array,
-        currentLocation: String,
-        isAllDone: Boolean,
-        isToggleAll: Boolean
+        currentLocation: String
     },
     components: {
         Todo
@@ -50,7 +47,6 @@ export default{
             //this.$emit('editTodo', editedTodo, id)
         },
         toggleAllTodo (e) {
-            e.preventDefault();
             const isChecked = !e.target.checked;
 
             this.$emit('toggleAllTodo', isChecked)

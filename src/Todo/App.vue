@@ -10,7 +10,6 @@
 			@completedTodo="completedTodo"
 			@editTodo= "editTodo"
 			:currentLocation="currentLocation"
-			:isToggleAll="isToggleAll"
 			@toggleAllTodo="toggleAllTodo"
 		/>
 		<app-footer
@@ -26,6 +25,7 @@
 import AppHeader from './components/Header.vue';
 import AppFooter from './components/Footer.vue';
 import TodoList from './components/TodoList.vue';
+import axios from 'axios';
 import TodoApi from './api/api_core.js';
 
 export default {
@@ -38,8 +38,7 @@ export default {
 				'/all',
                 '/active',
                 '/completed'
-			],
-			isToggleAll: null
+			]
 		}
 	},
 	computed: {
@@ -122,9 +121,16 @@ export default {
 			)
 		},
 		toggleAllTodo (toggleTodos) {
-			console.log()
-			const isDoneAll = !toggleTodos;
-			console.log(isDoneAll)
+			const isDoneAll = !this.todos.every(v=>v.isDone === true );
+			axios.all(
+				this.todos.map( 
+					v=> TodoApi.put(v.id,{ isDone: isDoneAll} )
+				)
+			)
+			.then((result)=>{
+				this.todos = result.map(v=>v.data);
+			})
+
 		}
 	},
   components: {
