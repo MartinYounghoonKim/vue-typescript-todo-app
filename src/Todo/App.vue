@@ -16,7 +16,7 @@
 			:todoFilters="todoFilters"
 			:currentLocation="currentLocation"
 			@changeLocation="changeLocation"
-			:leftItems="this.todos.filter( v=> v.isDone === true ).length"
+			:leftItems="this.$store.state.todos.filter( v=> v.isDone === true ).length"
 		/>
     </div>
   </div>
@@ -33,7 +33,6 @@ export default {
   name: 'app',
   data () {
 		return {
-			todos: [],
 			currentLocation: window.location.pathname,
 			todoFilters: [
 				'/all',
@@ -95,9 +94,6 @@ export default {
 					this.$store.state.todos.splice(deleteTargetKey, 1);
 				}
 			})
-			.catch((err)=>{
-				console.log(err)
-			})
 		},
 		completedTodo (checked, id) {
 			const isDone = checked;
@@ -105,14 +101,6 @@ export default {
 			
 			TodoApi.put(`/${primayKey}`,{
 				isDone: isDone
-			})
-			.then((res)=>{
-				if(res.status===200) {
-					console.log("Check Success");
-				}
-			})
-			.catch((err)=>{
-				console.log(err)
 			})
 		},
 		changeLocation (currentLocation) {

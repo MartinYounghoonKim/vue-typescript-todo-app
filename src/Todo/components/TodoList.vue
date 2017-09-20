@@ -8,12 +8,11 @@
     />
     <ul class="todo-list">
         <todo
-            v-for="todo in this.$store.state.todos"
+            v-for="todo in todos"
             :todo="todo"
-            :key="todos.key"
+            :key="todo.key"
             @deleteTodo="deleteTodo"
             @checkTodo="checkTodo"
-            @editingTodo="editingTodo"
             :isEditing="isEditing"
             @startEdit="startEdit"
             @finishEdit="finishEdit"
@@ -32,8 +31,8 @@ export default{
         }
     },
     props: {
-        todos: Array,
-        currentLocation: String
+        currentLocation: String,
+        todos: Array
     },
     components: {
         Todo
@@ -44,9 +43,6 @@ export default{
         },
         checkTodo (isDone, id) {
             this.$emit('completedTodo', isDone, id);
-        },
-        editingTodo (editedTodo, id) {
-            //this.$emit('editTodo', editedTodo, id)
         },
         startEdit (editingTarget) {
             this.isEditing = editingTarget;

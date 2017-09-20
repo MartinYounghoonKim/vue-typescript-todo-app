@@ -53,12 +53,6 @@ export default{
         finishEdit (e) {
             const editedText = e.target.value;
             this.$emit('finishEdit', this.todo.id, editedText);
-        },
-        editTodo (){
-            console.log(this.todo.id)
-            //console.log(this.$el.)
-            //edinting
-            //this.$emit("editTodo", this.todo.id)
         }
     }
 }
