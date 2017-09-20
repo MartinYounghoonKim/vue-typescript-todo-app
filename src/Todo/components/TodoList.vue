@@ -4,11 +4,11 @@
         type="checkbox" 
         class="toggle-all"
         @click="toggleAllTodo"
-        :checked = "todos.every(v=> v.isDone === true)"
+        :checked = "this.$store.state.todos.every(v=> v.isDone === true)"
     />
     <ul class="todo-list">
         <todo
-            v-for="todo in todos"
+            v-for="todo in this.$store.state.todos"
             :todo="todo"
             :key="todos.key"
             @deleteTodo="deleteTodo"

@@ -44,7 +44,7 @@ export default {
 	},
 	computed: {
 		viewTodos () {
-			return this.todos.filter(todo => {
+			return this.$store.state.todos.filter(todo => {
 				switch(true){
 					case this.currentLocation === '/all' || this.currentLocation === '/' : 
 						return true;
@@ -63,7 +63,8 @@ export default {
 	beforeMount (){
 		TodoApi.get(`/`)
 		.then((result) => {
-			this.todos = result.data;
+			this.$store.state.todos = result.data;
+			//this.todos = result.data;
 		});
 	},
 	methods: {
@@ -72,7 +73,8 @@ export default {
 				todo: text
 			})
 			.then((result)=>{
-				this.todos = [...this.todos, result.data];
+				//this.todos = [...this.todos, result.data];
+				this.$store.state.todos = [...this.$store.state.todos, result.data];
 			})
 		},
 		editTodo (id, editedTodo ) {
@@ -80,16 +82,17 @@ export default {
 				todo: editedTodo
 			})
 			.then((result)=>{
-				this.todos.splice(this.todos.findIndex(v => v.id === result.data.id), 1, result.data);
+				//this.todos.splice(this.todos.findIndex(v => v.id === result.data.id), 1, result.data);
+				this.$store.state.todos.splice(this.$store.state.todos.findIndex(v => v.id === result.data.id), 1, result.data)
 			})
 		},
 		deleteTodo (targetKey) {
-			const deleteTargetKey=this.todos.findIndex( v => targetKey === v.id );
+			const deleteTargetKey=this.$store.state.todos.findIndex( v => targetKey === v.id );
 
 			TodoApi.delete(`/${targetKey}`)
 			.then((result)=>{
 				if(result.status===200){
-					this.todos.splice(deleteTargetKey, 1);
+					this.$store.state.todos.splice(deleteTargetKey, 1);
 				}
 			})
 			.catch((err)=>{
@@ -122,14 +125,14 @@ export default {
 			)
 		},
 		toggleAllTodo (toggleTodos) {
-			const isDoneAll = !this.todos.every(v=>v.isDone === true );
+			const isDoneAll = !this.$store.state.todos.every(v=>v.isDone === true );
 			axios.all(
-				this.todos.map( 
+				this.$store.state.todos.map( 
 					v=> TodoApi.put(v.id,{ isDone: isDoneAll} )
 				)
 			)
 			.then((result)=>{
-				this.todos = result.map(v=>v.data);
+				this.$store.state.todos = result.map(v=>v.data);
 			})
 		}
 	},
