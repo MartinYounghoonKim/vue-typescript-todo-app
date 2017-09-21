@@ -16,7 +16,6 @@
 			:todoFilters="todoFilters"
 			:currentLocation="currentLocation"
 			@changeLocation="changeLocation"
-			:leftItems="this.$store.state.todos.filter( v=> v.isDone === true ).length"
 		/>
     </div>
   </div>
@@ -67,14 +66,8 @@ export default {
 		});
 	},
 	methods: {
-		addTodo (text) {
-			TodoApi.post(`/`,{
-				todo: text
-			})
-			.then((result)=>{
-				//this.todos = [...this.todos, result.data];
-				this.$store.state.todos = [...this.$store.state.todos, result.data];
-			})
+		addTodo (userValue) {
+			this.$store.commit('addTodos', userValue);
 		},
 		editTodo (id, editedTodo ) {
 			TodoApi.put(`/${id}`, {

@@ -8,7 +8,7 @@
     <div class="view">
         <input 
             type="checkbox" 
-            class="toggle" 
+            class="toggle"
             v-model="todo.isDone" 
             @click="checkeTodo" 
         >
@@ -25,7 +25,6 @@
         type="text" 
         class="edit"
         :value="this.todo.todo"
-        :focus="true"
         @blur="finishEdit"
         @keyup.13="finishEdit"
     />

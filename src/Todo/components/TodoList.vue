@@ -4,7 +4,7 @@
         type="checkbox" 
         class="toggle-all"
         @click="toggleAllTodo"
-        :checked = "this.$store.state.todos.every(v=> v.isDone === true)"
+        :checked = "isAllChecked"
     />
     <ul class="todo-list">
         <todo
@@ -22,6 +22,7 @@
 </template>
 <script>
 import Todo from './Todo.vue';
+import { mapGetters } from 'vuex';
 
 export default{
     name: 'TodoList',
@@ -30,6 +31,9 @@ export default{
             isEditing: ''
         }
     },
+    computed: mapGetters([
+        'isAllChecked'
+    ]),
     props: {
         currentLocation: String,
         todos: Array

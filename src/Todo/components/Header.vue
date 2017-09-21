@@ -1,14 +1,20 @@
 <template>
     <div class="header">
 		<h1>Vue Test</h1>
-		<input autofocus="autofocus" autocomplete="off" placeholder="What needs to be done?" class="new-todo" @keydown.enter="add">
+		<input 
+			autofocus="autofocus" 
+			autocomplete="off" 
+			placeholder="What needs to be done?" 
+			class="new-todo" 
+			@keydown.enter="addTodos"
+		/>
     </div>
 </template>
 <script>
 export default{
 	name: 'header',
 	methods: {
-		add (e) {
+		addTodos (e) {
 			const textElement = e.target;
 			const userValue = textElement.value;
 

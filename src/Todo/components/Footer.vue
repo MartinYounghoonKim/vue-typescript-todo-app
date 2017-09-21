@@ -2,11 +2,16 @@
 <div>
     <footer class="footer">
         <span class="todo-count">
-            <strong>{{ leftItems }}</strong> {{itemText}} left
+            <strong>{{ getTodosCounter }}</strong> {{itemText}} left
         </span> 
         <ul class="filters">
             <li v-for="filter in this.todoFilters">
-                <a :href="filter" :todoFilters="todoFilters" @click="changeLocation" :class="[filter == currentLocation ? 'selected' : '']">
+                <a 
+                    :href="filter" 
+                    :todoFilters="todoFilters" 
+                    :class="[filter == currentLocation ? 'selected' : '']"
+                    @click="changeLocation" 
+                >
                     {{filter.replace("/","").substring(0,1).toUpperCase() + filter.replace("/","").substring(1).toLowerCase()}}
                 </a>
             </li>
@@ -16,6 +21,8 @@
 </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 export default{
     name: 'Footer',
     props: {
@@ -24,6 +31,9 @@ export default{
         leftItems: Number
     },
     computed: {
+        ...mapGetters([
+            'getTodosCounter'
+        ]),
         itemText () {
             return this.leftItems > 1 ? 'items' : 'item'
         }
