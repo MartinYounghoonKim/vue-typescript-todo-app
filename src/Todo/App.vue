@@ -25,7 +25,7 @@
 import AppHeader from './components/Header.vue';
 import AppFooter from './components/Footer.vue';
 import TodoList from './components/TodoList.vue';
-import axios from 'axios';
+import TODO from './constant/mutation-type';
 import TodoApi from './api/api_core.js';
 
 export default {
@@ -62,43 +62,30 @@ export default {
 		TodoApi.get(`/`)
 		.then((result) => {
 			this.$store.state.todos = result.data;
-			//this.todos = result.data;
 		});
 	},
 	methods: {
 		addTodo (userValue) {
-			this.$store.commit('addTodos', userValue);
+			this.$store.commit(TODO.ADD, userValue);
 		},
-		editTodo (id, editedTodo ) {
-			TodoApi.put(`/${id}`, {
-				todo: editedTodo
-			})
-			.then((result)=>{
-				//this.todos.splice(this.todos.findIndex(v => v.id === result.data.id), 1, result.data);
-				this.$store.state.todos.splice(this.$store.state.todos.findIndex(v => v.id === result.data.id), 1, result.data)
-			})
+		editTodo (id, editedTodo) {
+			this.$store.commit(TODO.EDIT, { id, editedTodo });
 		},
 		deleteTodo (targetKey) {
 			const deleteTargetKey=this.$store.state.todos.findIndex( v => targetKey === v.id );
 
-			TodoApi.delete(`/${targetKey}`)
-			.then((result)=>{
-				if(result.status===200){
-					this.$store.state.todos.splice(deleteTargetKey, 1);
-				}
-			})
+			this.$store.commit(TODO.DELETE, { deleteTargetKey, targetKey });
 		},
 		completedTodo (checked, id) {
 			const isDone = checked;
 			const primayKey = id;
 			
-			TodoApi.put(`/${primayKey}`,{
-				isDone: isDone
-			})
+			this.$store.commit(TODO.COMPLETE, { isDone, primayKey});
 		},
 		changeLocation (currentLocation) {
 			if(currentLocation.length<0) return false;
 			this.currentLocation = currentLocation;
+
 			window.history.pushState(
 				null,
 				'',
@@ -107,14 +94,8 @@ export default {
 		},
 		toggleAllTodo (toggleTodos) {
 			const isDoneAll = !this.$store.state.todos.every(v=>v.isDone === true );
-			axios.all(
-				this.$store.state.todos.map( 
-					v=> TodoApi.put(v.id,{ isDone: isDoneAll} )
-				)
-			)
-			.then((result)=>{
-				this.$store.state.todos = result.map(v=>v.data);
-			})
+
+			this.$store.commit(TODO.ALL_COMPLETE, isDoneAll);
 		}
 	},
   components: {

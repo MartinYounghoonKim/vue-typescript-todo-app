@@ -9,7 +9,7 @@
         <input 
             type="checkbox" 
             class="toggle"
-            v-model="todo.isDone" 
+            v-model="todo.isDone"
             @click="checkeTodo" 
         >
         <label
