@@ -1,6 +1,6 @@
 # vue-todo
 
-> Todo App with Vuejs and Vuex
+> Todo App with Vuejs and Vuex.
 
 ## Build Setup
 
@@ -17,12 +17,10 @@ npm run build
 # install deployd
 npm install deployd
 dpd create db
-dpd db/app.dpd -d
-need to set deployd collection
+dpd db -d
+need to set deployd `Collection`
   - todos :
     - id
     - todo(string, required)
     - isDone(boolean)
 ```
-
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
