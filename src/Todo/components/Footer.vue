@@ -35,6 +35,7 @@ export default{
             'getTodosCounter'
         ]),
         itemText () {
+            // TODO: leftItems value 값 확인 
             return this.leftItems > 1 ? 'items' : 'item'
         }
     },

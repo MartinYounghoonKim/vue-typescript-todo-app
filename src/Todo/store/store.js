@@ -23,14 +23,31 @@ export const store = new Vuex.Store({
     },
     mutations: {
         [TODO.ADD] (state, payload){
+            state.todos = [...state.todos, payload];
+        },
+        [TODO.EDIT] (state, payload) {
+            const targetKey = payload.id;
+            const editedTodo = payload.editedTodo;
+            
+            state.todos.splice( state.todos.findIndex(v => v.id === targetKey), 1, payload);
+        },
+        [TODO.DELETE] (state, deleteTargetKey) {
+            state.todos.splice(deleteTargetKey, 1);
+        },
+        [TODO.ALL_COMPLETE] (state, payload) {
+            state.todos = payload.map( v=>v.data );
+        }
+    },
+    actions: {
+        [TODO.ADD] ({ commit }, payload) {
             TodoApi.post(`/`,{
 				todo: payload
 			})
 			.then((result)=>{
-				state.todos = [...state.todos, result.data];
-			})
+                commit(TODO.ADD, result.data)
+			});
         },
-        [TODO.EDIT] (state, payload) {
+        [TODO.EDIT] ({ commit }, payload) {
             const targetKey = payload.id;
             const editedTodo = payload.editedTodo;
 
@@ -38,21 +55,21 @@ export const store = new Vuex.Store({
 				todo: editedTodo
 			})
 			.then((result)=>{
-				state.todos.splice( state.todos.findIndex(v => v.id === result.data.id), 1, result.data);
+                commit(TODO.EDIT, result.data );
 			})
         },
-        [TODO.DELETE] (state, payload) {
+        [TODO.DELETE] ({ commit }, payload) {
             const targetKey = payload.targetKey;
             const deleteTargetKey =  payload.deleteTargetKey;
 
             TodoApi.delete(`/${targetKey}`)
 			.then((result)=>{
 				if(result.status===200){
-					state.todos.splice(deleteTargetKey, 1);
+                    commit(TODO.DELETE, deleteTargetKey);
 				}
 			})
         },
-        [TODO.COMPLETE] (state, payload) {
+        [TODO.COMPLETE] (commit, payload) {
             const primayKey = payload.primayKey;
             const isDone = payload.isDone;
             
@@ -60,7 +77,7 @@ export const store = new Vuex.Store({
 				isDone: isDone
 			})
         },
-        [TODO.ALL_COMPLETE] (state, payload) {
+        [TODO.ALL_COMPLETE] ({ commit, state }, payload) {
             const isCompleteAll = payload;
 
             axios.all(
@@ -68,8 +85,8 @@ export const store = new Vuex.Store({
 					v=> TodoApi.put(v.id, { isDone: isCompleteAll })
 				)
 			)
-			.then((result)=>{
-                state.todos = result.map( v=>v.data );
+            .then((result)=>{
+                commit(TODO.ALL_COMPLETE, result );
 			})
         }
     }

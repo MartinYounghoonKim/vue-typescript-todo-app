@@ -66,21 +66,26 @@ export default {
 	},
 	methods: {
 		addTodo (userValue) {
-			this.$store.commit(TODO.ADD, userValue);
+			this.$store.dispatch(TODO.ADD, userValue)
 		},
 		editTodo (id, editedTodo) {
-			this.$store.commit(TODO.EDIT, { id, editedTodo });
+			this.$store.dispatch(TODO.EDIT, { id, editedTodo } );
 		},
 		deleteTodo (targetKey) {
 			const deleteTargetKey=this.$store.state.todos.findIndex( v => targetKey === v.id );
-
-			this.$store.commit(TODO.DELETE, { deleteTargetKey, targetKey });
+			
+			this.$store.dispatch(TODO.DELETE, { deleteTargetKey, targetKey });
 		},
 		completedTodo (checked, id) {
 			const isDone = checked;
 			const primayKey = id;
 			
-			this.$store.commit(TODO.COMPLETE, { isDone, primayKey});
+			this.$store.dispatch(TODO.COMPLETE, { isDone, primayKey});
+		},
+		toggleAllTodo (toggleTodos) {
+			const isDoneAll = !this.$store.state.todos.every(v=>v.isDone === true );
+
+			this.$store.dispatch(TODO.ALL_COMPLETE, isDoneAll);
 		},
 		changeLocation (currentLocation) {
 			if(currentLocation.length<0) return false;
@@ -91,11 +96,6 @@ export default {
 				'',
 				this.currentLocation
 			)
-		},
-		toggleAllTodo (toggleTodos) {
-			const isDoneAll = !this.$store.state.todos.every(v=>v.isDone === true );
-
-			this.$store.commit(TODO.ALL_COMPLETE, isDoneAll);
 		}
 	},
   components: {
