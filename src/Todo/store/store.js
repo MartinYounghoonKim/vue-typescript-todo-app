@@ -10,8 +10,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state: {
-        todos: [],
-        counter: 1
+        todos: []
     },
     getters: {
         isAllChecked (state) {

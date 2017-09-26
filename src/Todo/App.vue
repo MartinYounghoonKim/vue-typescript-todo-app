@@ -16,6 +16,7 @@
 			:todoFilters="todoFilters"
 			:currentLocation="currentLocation"
 			@changeLocation="changeLocation"
+			:leftItems="this.$store.state.todos.filter( v => v.isDone === true).length"
 		/>
     </div>
   </div>
