@@ -4,6 +4,10 @@ const todoGetters = {
 	},
 	getTodosCounter (state) {
 		return state.todos.filter( v=> v.isDone === true ).length;
+	},
+	getTodoList (state) {
+		console.log(window.location.pathname)
+		return 1;
 	}
 };
 
