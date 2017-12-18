@@ -10,18 +10,12 @@
 		/>
     </div>
 </template>
-<script>
+<script lang="ts">
 export default{
-	name: 'header',
+	name: 'AppHeader',
 	methods: {
-		addTodos (e) {
-			const textElement = e.target;
-			const userValue = textElement.value;
-
-			if(userValue.length){
-				this.$emit('addTodo', userValue);
-				textElement.value='';
-			}
+		addTodos (e: object) {
+		    console.log(e)
 		}
 	}
 }
