@@ -14,4 +14,9 @@ export default class Hello extends Vue {
     beforeMount (): void {
         console.log(1);
     }
+
+    addTodo (payload: any) {
+        console.log(payload)
+    }
+
 }

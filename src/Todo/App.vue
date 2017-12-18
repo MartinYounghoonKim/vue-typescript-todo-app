@@ -1,7 +1,9 @@
 <template>
     <div id="app">
         <div class="todoapp">
-            <app-header/>
+            <app-header
+                @addTodo="addTodo"
+            />
         </div>
     </div>
 </template>
