@@ -11,18 +11,18 @@
     </div>
 </template>
 <script lang="ts">
-    export default {
-        name: 'AppHeader',
-        methods: {
-            addTodos(e: object) {
-                // const textElement = e.target;
-                // const userValue = textElement.value;
-                // if(userValue.length){
-                //     this.$emit('addTodo', userValue);
-                //     textElement.value='';
-                // }
-                this.$emit('addTodo');
-            }
+    import { Component, Vue, Emit } from 'vue-property-decorator';
+
+    @Component
+    export default class AppHeader extends Vue {
+        addTodos(e: object) {
+            console.log(1);
+            // const textElement = e.target;
+            // const userValue = textElement.value;
+            // if(userValue.length){
+            //     this.$emit('addTodo', userValue);
+            //     textElement.value='';
+            // }
         }
     }
 </script>
