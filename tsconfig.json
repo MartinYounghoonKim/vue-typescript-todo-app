@@ -7,14 +7,18 @@
     "module": "es2015",
     "moduleResolution": "node",
     "target": "es5",
+    "lib": [
+      "dom",
+      "es2015"
+    ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "allowSyntheticDefaultImports": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "removeComments": true
   },
   "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
+    "./**/*.ts"
   ]
 }
