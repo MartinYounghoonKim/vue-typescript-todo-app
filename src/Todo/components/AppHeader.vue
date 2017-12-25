@@ -6,23 +6,25 @@
             autocomplete="off"
             placeholder="What needs to be done?"
             class="new-todo"
-            @keydown.enter="addTodos"
+            @keydown.enter="addTodo"
         />
     </div>
 </template>
 <script lang="ts">
-    import { Component, Vue, Emit } from 'vue-property-decorator';
+    import { Component, Vue } from 'vue-property-decorator';
 
-    @Component
+    @Component({
+        name: "AppHeader",
+    })
     export default class AppHeader extends Vue {
-        addTodos(e: object) {
-            console.log(1);
-            // const textElement = e.target;
-            // const userValue = textElement.value;
-            // if(userValue.length){
-            //     this.$emit('addTodo', userValue);
-            //     textElement.value='';
-            // }
+
+        addTodo (e: object): void {
+            const textElement = event.target;
+            const userValue = (<HTMLInputElement>textElement).value;
+            if(userValue.length){
+                (<HTMLInputElement>textElement).value='';
+                this.$emit('addTodo', userValue);
+            }
         }
     }
 </script>

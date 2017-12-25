@@ -15,8 +15,8 @@ export default class Hello extends Vue {
         console.log(1);
     }
 
-    addTodo (payload: any) {
-        console.log(payload)
+    addTodo (todoValue: string): void {
+        this.$store.dispatch('TODO/ADD_TODOS', todoValue);
     }
 
 }
