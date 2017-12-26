@@ -11,6 +11,12 @@
 				@completedTodo="completedTodo"
 				@toggleAllTodo="toggleAllTodo"
 			></todo-list>
+			<app-footer
+				:todoFilters="todoFilters"
+				:currentLocation="currentLocation"
+				@changeLocation="changeLocation"
+				:leftItems="this.$store.state.todos.filter( v => v.isDone === true).length"
+			></app-footer>
 		</div>
 	</div>
 </template>

@@ -1,16 +1,26 @@
 import { Component, Vue } from 'vue-property-decorator';
 import AppHeader from './components/AppHeader.vue';
 import TodoList from './components/TodoList.vue';
+import AppFooter from './components/AppFooter.vue';
 import TodoResource from './api/api_core';
 import TODO from './store/todo.constants';
+
+interface Todo {
+    id: string,
+    isDone: boolean,
+    todo: string
+}
 
 @Component({
     name: 'App',
     components: {
         AppHeader,
-        TodoList
+        TodoList,
+        AppFooter
     }
 })
+
+
 export default class Hello extends Vue {
     currentLocation: string = window.location.pathname;
     todoFilters: any = [ '/all', '/active', '/completed']
@@ -22,8 +32,19 @@ export default class Hello extends Vue {
             })
     }
 
-    get viewTodos (): any {
-        return this.$store.state.todos;
+    get viewTodos (): Todo {
+        return this.$store.state.todos.filter( this.test12 );
+    }
+
+    test12 (todo: Todo): any {
+        switch(true){
+            case this.currentLocation === '/all' || this.currentLocation === '/' :
+            return true;
+            case this.currentLocation === '/active' && !todo.isDone :
+            return true;
+            case this.currentLocation === '/completed' && todo.isDone :
+            return true;
+        }
     }
 
     addTodo (todoValue: string): void {
@@ -49,5 +70,15 @@ export default class Hello extends Vue {
         const isDoneAll = !this.$store.state.todos.every((v: any) => v.isDone === true );
         this.$store.dispatch(TODO.ALL_COMPLETE, isDoneAll);
     }
+    changeLocation (currentLocation: any): any {
+        if(currentLocation.length<0) return false;
+        this.currentLocation = currentLocation;
+        window.history.pushState(
+            null,
+            '',
+            this.currentLocation
+        )
+    }
+
 
 }
