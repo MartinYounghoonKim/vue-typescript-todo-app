@@ -1,10 +1,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import AppHeader from './components/AppHeader.vue';
+import TodoList from './components/TodoList.vue';
+import TodoResource from '@/Todo/api/api_core';
 
 @Component({
     name: 'App',
     components: {
-        AppHeader
+        AppHeader,
+        TodoList
     }
 })
 export default class Hello extends Vue {
@@ -12,7 +15,14 @@ export default class Hello extends Vue {
     todoFilters: any = [ '/all', '/active', '/completed']
 
     beforeMount (): void {
-        console.log(1);
+        TodoResource.get('/')
+            .then( (res: any) => {
+                this.$store.state.todos = res.data;
+            })
+    }
+
+    get viewTodos (): any {
+        return this.$store.state.todos;
     }
 
     addTodo (todoValue: string): void {

@@ -11,6 +11,10 @@ class TodoAPI {
         });
     }
 
+    public get(uri: string): Promise<any> {
+        return this._axios.get(uri);
+    }
+
     public _post (uri: string, payload: object): Promise<any> {
         return this._axios.post(uri, payload);
     }
