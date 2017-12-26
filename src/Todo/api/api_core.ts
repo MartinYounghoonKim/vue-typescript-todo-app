@@ -22,6 +22,10 @@ class TodoAPI {
     public _put (uri: string, payload: object): Promise<any> {
         return this._axios.put(uri, payload);
     }
+
+    public _delete (uri: string): Promise<any> {
+        return this._axios.delete(uri);
+    }
 }
 
 const todoApi = new TodoAPI;
