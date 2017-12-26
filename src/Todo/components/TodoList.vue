@@ -38,16 +38,6 @@
 		@Prop()
 		viewTodos: Array<object>
 
-
-		addTodo(e: object): void {
-			const textElement = event.target;
-			const userValue = (<HTMLInputElement>textElement).value;
-			if (userValue.length) {
-				(<HTMLInputElement>textElement).value = '';
-				this.$emit('addTodo', userValue);
-			}
-		}
-
         deleteTodo(deleteTargetKey: any): void {
             this.$emit('deleteTodo', deleteTargetKey);
 		}
