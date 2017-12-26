@@ -1,15 +1,11 @@
 import { Component, Vue } from 'vue-property-decorator';
+import TodoResource from './api/api_core';
+import TODO from './store/todo.constants';
+import { Todo } from './interfaces/Todo.Interface';
+
 import AppHeader from './components/AppHeader.vue';
 import TodoList from './components/TodoList.vue';
 import AppFooter from './components/AppFooter.vue';
-import TodoResource from './api/api_core';
-import TODO from './store/todo.constants';
-
-interface Todo {
-    id: string,
-    isDone: boolean,
-    todo: string
-}
 
 @Component({
     name: 'App',

@@ -26,11 +26,7 @@
     </li>
 </template>
 <script lang="ts">
-    interface Todo {
-        id: string,
-        isDone: boolean,
-        todo: string
-    }
+    import { Todo } from '../Interfaces/Todo.Interface';
     import {Component, Vue, Prop} from 'vue-property-decorator';
 
     @Component({
