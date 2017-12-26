@@ -6,6 +6,10 @@
 			/>
 			<todo-list
 				:viewTodos="viewTodos"
+				@editTodo= "editTodo"
+				@deleteTodo="deleteTodo"
+				@completedTodo="completedTodo"
+				@toggleAllTodo="toggleAllTodo"
 			></todo-list>
 		</div>
 	</div>

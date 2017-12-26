@@ -2,27 +2,39 @@
 	<section class="main">
 		<input
 			type="checkbox"
-			class="toggle-all"/>
+			@click="toggleAllTodo"
+			class="toggle-all"
+			:checked = "isAllChecked"
+		/>
 		<ul class="todo-list">
-			<todo
+			<todo-item
 				v-for="todo in viewTodos"
 				:todo="todo"
 				:key="todo.index"
-			></todo>
+				:isEditing="isEditing"
+				@deleteTodo="deleteTodo"
+				@checkTodo="checkTodo"
+				@startEdit="startEdit"
+				@finishEdit="finishEdit"
+			></todo-item>
 		</ul>
 	</section>
 </template>
 <script lang="ts">
 	import {Component, Vue, Prop} from 'vue-property-decorator';
-	import Todo from './Todo.vue';
+	import { Getter } from 'vuex-class';
+	import TodoItem from './TodoItem.vue';
 
 	@Component({
 		name: "TodoList",
 		components: {
-			Todo
+			TodoItem
 		}
 	})
 	export default class TodoList extends Vue {
+        isEditing: string = '';
+        @Getter isAllChecked: boolean
+
 		@Prop()
 		viewTodos: Array<object>
 
@@ -35,6 +47,33 @@
 				this.$emit('addTodo', userValue);
 			}
 		}
+
+        deleteTodo(deleteTargetKey: any): void {
+            this.$emit('deleteTodo', deleteTargetKey);
+		}
+
+        checkTodo(isDone: boolean, id: string): void {
+            this.$emit('completedTodo', isDone, id);
+		}
+
+        startEdit(editingTarget: string): void {
+            this.isEditing = editingTarget;
+		}
+
+        finishEdit(id: string, todo: string): any {
+            const targetId: string = id;
+            const editedTodo: string = todo;
+            if(this.isEditing.length<=0){
+                return false;
+            }
+            this.$emit('editTodo', targetId, editedTodo);
+            this.isEditing = '';
+		}
+
+        toggleAllTodo (event: any) {
+            const isChecked = !event.target.checked;
+            this.$emit('toggleAllTodo', isChecked)
+        }
 	}
 
 </script>

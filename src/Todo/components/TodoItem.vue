@@ -1,29 +1,64 @@
 <template>
-    <li>
+    <li
+        :class="{
+            completed:todo.isDone,
+            editing:this.isEditing == this.todo.id,
+            todo
+        }"
+    >
         <div class="view">
-            <input type="checkbox" class="toggle">
+            <input type="checkbox" class="toggle" @click="checkeTodo"  v-model="todo.isDone">
             <label
+                @dblclick="startEdit"
             >{{ todo.todo}}</label>
             <button
-                    class="destroy"
+                class="destroy"
+                @click="deleteTodo"
             ></button>
         </div>
         <input
-                ref="editInput"
-                type="text"
-                class="edit"
+            ref="editInput"
+            type="text"
+            class="edit"
+            @blur="finishEdit"
+            @keyup.13="finishEdit"
         />
     </li>
 </template>
 <script lang="ts">
+    interface Todo {
+        id: string,
+        isDone: boolean,
+        todo: string
+    }
     import {Component, Vue, Prop} from 'vue-property-decorator';
 
     @Component({
-        name: "Todo",
+        name: "TodoItem",
     })
-    export default class Todo extends Vue {
-    	@Prop()
-        todo: object
+    export default class TodoItem extends Vue {
+        @Prop() todo: Todo
+        @Prop() isEditing: string
+
+        deleteTodo (e: object) {
+            this.$emit('deleteTodo', this.todo.id);
+        }
+
+        checkeTodo (): void {
+            this.$emit("checkTodo", this.todo.isDone, this.todo.id);
+        }
+
+        startEdit (): void {
+            this.$emit('startEdit', this.todo.id);
+            (<HTMLInputElement>this.$refs.editInput).value = this.todo.todo;
+            setTimeout(()=> (<HTMLElement>this.$refs.editInput).focus());
+        }
+
+        finishEdit (): void {
+            const editedText: string = (<HTMLInputElement>event.target).value;
+
+            this.$emit('finishEdit', this.todo.id, editedText);
+        }
 
     }
 </script>
