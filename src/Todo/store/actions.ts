@@ -2,31 +2,28 @@ import axios from 'axios';
 import TODO from './todo.constants';
 import TodoApi from '../api/api_core';
 import { ActionTree } from 'vuex'
+import { Todo } from '../Interfaces/Todo.Interface';
 
 
 const todoActions: ActionTree<any, any> = {
-    [TODO.ADD] ({ commit }: any, payload: any) {
-        TodoApi._post('/', {
-           todo: payload
-        })
+    [TODO.ADD] ({ commit }: any, payload: string) {
+        TodoApi._post('/', { todo: payload })
             .then( (res: any) => {
                 commit(TODO.ADD, res.data);
             })
     },
-    [TODO.EDIT] ({ commit }: any, payload: any) {
-        const targetKey = payload.id;
-        const editedTodo = payload.editedTodo;
+    [TODO.EDIT] ({ commit }: any, EditedTodo: Todo) {
+        const targetKey = EditedTodo.id;
+        const editedTodo = EditedTodo.todo;
 
-        TodoApi._put(`/${targetKey}`, {
-            todo: editedTodo
-        })
+        TodoApi._put(`/${targetKey}`, { todo: editedTodo })
             .then((res: any)=>{
                 commit(TODO.EDIT, res.data );
             })
     },
     [TODO.DELETE] ({ commit }: any, payload: any) {
-        const targetKey = payload.targetKey;
-        const deleteTargetKey =  payload.deleteTargetKey;
+        const targetKey: number = payload.targetKey;
+        const deleteTargetKey: string =  payload.deleteTargetKey;
 
         TodoApi._delete(`/${targetKey}`)
             .then((res: any)=>{
@@ -35,24 +32,18 @@ const todoActions: ActionTree<any, any> = {
                 }
             })
     },
-    [TODO.COMPLETE] ({ commit }: any, payload: any) {
-        const primayKey = payload.primayKey;
-        const isDone = !payload.isDone;
+    [TODO.COMPLETE] ({ commit }: any, completedTodo: Todo) {
+        const targetTodoId = completedTodo.id;
+        const isDone = !completedTodo.isDone;
 
-        TodoApi._put(`/${primayKey}`,{
-            isDone: isDone
-        })
+        TodoApi._put(`/${targetTodoId}`,{ isDone });
     },
-    [TODO.ALL_COMPLETE] ({ commit, state }: any, payload: any) {
-        const isCompleteAll: boolean = payload;
-        axios.all(
-            state.todos.map(
-                (v: any)=> TodoApi._put(v.id, { isDone: isCompleteAll })
-            )
-        )
+    [TODO.ALL_COMPLETE] ({ commit, state }: any, isCompletedAll: boolean) {
+
+        axios.all( state.todos.map( (v: any) => TodoApi._put(v.id, { isDone: isCompletedAll }) ))
             .then((res: any)=>{
                 commit(TODO.ALL_COMPLETE, res );
-            })
+            });
     }
 }
 
