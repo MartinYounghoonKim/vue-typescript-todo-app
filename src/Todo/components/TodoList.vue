@@ -22,8 +22,10 @@
 </template>
 <script lang="ts">
 	import { Component, Vue, Prop} from 'vue-property-decorator';
-	import {Getter} from 'vuex-class';
+	import { Getter } from 'vuex-class';
+
 	import TodoItem from './TodoItem.vue';
+	import { MouseEvent } from "../Interfaces/Todo.Interface";
 
 	@Component({
 		name: "TodoList",
@@ -33,12 +35,12 @@
 	})
 	export default class TodoList extends Vue {
 		isEditing: string = '';
+
 		@Getter isAllChecked: boolean
 
-		@Prop()
-		viewTodos: Array<object>
+		@Prop() viewTodos: Array<object>
 
-		deleteTodo(deleteTargetKey: any): void {
+		deleteTodo(deleteTargetKey: string): void {
 			this.$emit('deleteTodo', deleteTargetKey);
 		}
 
@@ -53,6 +55,7 @@
 		finishEdit(id: string, todo: string): any {
 			const targetId: string = id;
 			const editedTodo: string = todo;
+
 			if (this.isEditing.length <= 0) {
 				return false;
 			}
@@ -60,8 +63,10 @@
 			this.isEditing = '';
 		}
 
-		toggleAllTodo(event: any) {
-			const isChecked = !event.target.checked;
+		toggleAllTodo(event: MouseEvent) {
+			const checkbox = event.target;
+			const isChecked = !(<HTMLInputElement>checkbox).checked;
+
 			this.$emit('toggleAllTodo', isChecked)
 		}
 	}
