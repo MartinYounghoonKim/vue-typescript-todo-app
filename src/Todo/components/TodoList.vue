@@ -4,7 +4,7 @@
 			type="checkbox"
 			@click="toggleAllTodo"
 			class="toggle-all"
-			:checked = "isAllChecked"
+			:checked="isAllChecked"
 		/>
 		<ul class="todo-list">
 			<todo-item
@@ -21,8 +21,8 @@
 	</section>
 </template>
 <script lang="ts">
-	import {Component, Vue, Prop} from 'vue-property-decorator';
-	import { Getter } from 'vuex-class';
+	import { Component, Vue, Prop} from 'vue-property-decorator';
+	import {Getter} from 'vuex-class';
 	import TodoItem from './TodoItem.vue';
 
 	@Component({
@@ -32,43 +32,42 @@
 		}
 	})
 	export default class TodoList extends Vue {
-        isEditing: string = '';
-        @Getter isAllChecked: boolean
+		isEditing: string = '';
+		@Getter isAllChecked: boolean
 
 		@Prop()
 		viewTodos: Array<object>
 
-        deleteTodo(deleteTargetKey: any): void {
-            this.$emit('deleteTodo', deleteTargetKey);
+		deleteTodo(deleteTargetKey: any): void {
+			this.$emit('deleteTodo', deleteTargetKey);
 		}
 
-        checkTodo(isDone: boolean, id: string): void {
-            this.$emit('completedTodo', isDone, id);
+		checkTodo(isDone: boolean, id: string): void {
+			this.$emit('completedTodo', isDone, id);
 		}
 
-        startEdit(editingTarget: string): void {
-            this.isEditing = editingTarget;
+		startEdit(editingTarget: string): void {
+			this.isEditing = editingTarget;
 		}
 
-        finishEdit(id: string, todo: string): any {
-            const targetId: string = id;
-            const editedTodo: string = todo;
-            if(this.isEditing.length<=0){
-                return false;
-            }
-            this.$emit('editTodo', targetId, editedTodo);
-            this.isEditing = '';
+		finishEdit(id: string, todo: string): any {
+			const targetId: string = id;
+			const editedTodo: string = todo;
+			if (this.isEditing.length <= 0) {
+				return false;
+			}
+			this.$emit('editTodo', targetId, editedTodo);
+			this.isEditing = '';
 		}
 
-        toggleAllTodo (event: any) {
-            const isChecked = !event.target.checked;
-            this.$emit('toggleAllTodo', isChecked)
-        }
+		toggleAllTodo(event: any) {
+			const isChecked = !event.target.checked;
+			this.$emit('toggleAllTodo', isChecked)
+		}
 	}
 
 </script>
 <style lang="scss">
-
 	.main {
 		position: relative;
 		z-index: 2;

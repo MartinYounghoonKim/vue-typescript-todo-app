@@ -6,14 +6,8 @@
         </span>
             <ul class="filters">
                 <li v-for="filter in this.todoFilters">
-                    <a
-                        :href="filter"
-                        :todoFilters="todoFilters"
-                        :class="[filter == currentLocation ? 'selected' : '']"
-                        @click="changeLocation"
-                    >
-                        {{filter.replace("/","").substring(0,1).toUpperCase() +
-                        filter.replace("/","").substring(1).toLowerCase()}}
+                    <a :href="filter" :class="[filter == currentLocation ? 'selected' : '']" @click.prevent="changeLocation">
+                        {{ filter.replace("/","").substring(0,1).toUpperCase() + filter.replace("/","").substring(1).toLowerCase() }}
                     </a>
                 </li>
             </ul>
@@ -36,14 +30,12 @@
 
         @Getter getTodosCounter: any
 
-        get itemText (): any {
+        get itemText (): string {
             return this.leftItems > 1 ? 'items' : 'item'
         }
 
         changeLocation(event: any): void {
-            event.preventDefault();
             this.$emit('changeLocation', event.target.pathname)
-
         }
 
     }
