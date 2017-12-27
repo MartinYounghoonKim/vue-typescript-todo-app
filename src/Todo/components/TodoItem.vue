@@ -1,20 +1,9 @@
 <template>
-    <li
-        :class="{
-            completed:todo.isDone,
-            editing:this.isEditing == this.todo.id,
-            todo
-        }"
-    >
+    <li :class="{  completed:todo.isDone, editing:this.isEditing == this.todo.id, todo }">
         <div class="view">
             <input type="checkbox" class="toggle" @click="checkeTodo"  v-model="todo.isDone">
-            <label
-                @dblclick="startEdit"
-            >{{ todo.todo}}</label>
-            <button
-                class="destroy"
-                @click="deleteTodo"
-            ></button>
+            <label @dblclick="startEdit">{{ todo.todo}}</label>
+            <button class="destroy" @click="deleteTodo"></button>
         </div>
         <input
             ref="editInput"
@@ -27,7 +16,7 @@
 </template>
 <script lang="ts">
     import { Todo } from '../Interfaces/Todo.Interface';
-    import {Component, Vue, Prop} from 'vue-property-decorator';
+    import { Component, Vue, Prop } from 'vue-property-decorator';
 
     @Component({
         name: "TodoItem",
@@ -36,7 +25,7 @@
         @Prop() todo: Todo
         @Prop() isEditing: string
 
-        deleteTodo (e: object) {
+        deleteTodo () {
             this.$emit('deleteTodo', this.todo.id);
         }
 
