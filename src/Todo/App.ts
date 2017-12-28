@@ -5,14 +5,12 @@ import { Todo } from './interfaces/Todo.Interface';
 
 import AppHeader from './components/AppHeader.vue';
 import TodoList from './components/TodoList.vue';
-import AppFooter from './components/AppFooter.vue';
 
 @Component({
     name: 'App',
     components: {
         AppHeader,
         TodoList,
-        AppFooter
     }
 })
 
@@ -29,18 +27,7 @@ export default class Hello extends Vue {
     }
 
     get viewTodos (): Todo {
-        return this.$store.state.todos.filter( this.getCurrentLocation );
-    }
-
-    getCurrentLocation (todo: Todo): any {
-        switch(true){
-            case this.currentLocation === '/all' || this.currentLocation === '/' :
-            return true;
-            case this.currentLocation === '/active' && !todo.isDone :
-            return true;
-            case this.currentLocation === '/completed' && todo.isDone :
-            return true;
-        }
+        return this.$store.state.todos;
     }
 
     addTodo (todoValue: string): void {
@@ -65,12 +52,6 @@ export default class Hello extends Vue {
         const isDoneAll = !this.$store.state.todos.every((v: any) => v.isDone === true );
 
         this.$store.dispatch(TODO.ALL_COMPLETE, isDoneAll);
-    }
-    changeLocation (currentLocation: any): any {
-        if( currentLocation.length < 0 ) return false;
-
-        this.currentLocation = currentLocation;
-        window.history.pushState(null, '', this.currentLocation );
     }
 
 
