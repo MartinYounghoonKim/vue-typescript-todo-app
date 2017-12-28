@@ -1,11 +1,5 @@
 <template>
 	<section class="main">
-		<input
-			type="checkbox"
-			@click="toggleAllTodo"
-			class="toggle-all"
-			:checked="isAllChecked"
-		/>
 		<ul class="todo-list">
 			<todo-item
 				v-for="todo in viewTodos"
@@ -61,13 +55,6 @@
 			}
 			this.$emit('editTodo', targetId, editedTodo);
 			this.isEditing = '';
-		}
-
-		toggleAllTodo(event: MouseEvent) {
-			const checkbox = event.target;
-			const isChecked = !(<HTMLInputElement>checkbox).checked;
-
-			this.$emit('toggleAllTodo', isChecked)
 		}
 	}
 

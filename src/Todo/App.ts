@@ -3,16 +3,12 @@ import TodoResource from './api/api_core';
 import TODO from './store/todo.constants';
 import { Todo } from './interfaces/Todo.Interface';
 
-import AppHeader from './components/AppHeader.vue';
 import TodoList from './components/TodoList.vue';
-import AppFooter from './components/AppFooter.vue';
 
 @Component({
     name: 'App',
     components: {
-        AppHeader,
-        TodoList,
-        AppFooter
+        TodoList
     }
 })
 
@@ -43,10 +39,6 @@ export default class Hello extends Vue {
         }
     }
 
-    addTodo (todoValue: string): void {
-        this.$store.dispatch('TODO/ADD_TODOS', todoValue);
-    }
-
     editTodo (id: string, todo: string): void {
         this.$store.dispatch(TODO.EDIT, { id, todo } );
     }
@@ -60,17 +52,6 @@ export default class Hello extends Vue {
         const isDone = checked;
 
         this.$store.dispatch(TODO.COMPLETE, { isDone, id });
-    }
-    toggleAllTodo () {
-        const isDoneAll = !this.$store.state.todos.every((v: any) => v.isDone === true );
-
-        this.$store.dispatch(TODO.ALL_COMPLETE, isDoneAll);
-    }
-    changeLocation (currentLocation: any): any {
-        if( currentLocation.length < 0 ) return false;
-
-        this.currentLocation = currentLocation;
-        window.history.pushState(null, '', this.currentLocation );
     }
 
 

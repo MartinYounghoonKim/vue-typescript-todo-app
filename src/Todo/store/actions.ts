@@ -1,4 +1,3 @@
-import axios from 'axios';
 import TODO from './todo.constants';
 import TodoApi from '../api/api_core';
 import { ActionTree } from 'vuex'
@@ -6,12 +5,6 @@ import { Todo } from '../Interfaces/Todo.Interface';
 
 
 const todoActions: ActionTree<any, any> = {
-    [TODO.ADD] ({ commit }: any, payload: string) {
-        TodoApi._post('/', { todo: payload })
-            .then( (res: any) => {
-                commit(TODO.ADD, res.data);
-            })
-    },
     [TODO.EDIT] ({ commit }: any, EditedTodo: Todo) {
         const targetKey = EditedTodo.id;
         const editedTodo = EditedTodo.todo;
@@ -37,13 +30,6 @@ const todoActions: ActionTree<any, any> = {
         const isDone = !completedTodo.isDone;
 
         TodoApi._put(`/${targetTodoId}`,{ isDone });
-    },
-    [TODO.ALL_COMPLETE] ({ commit, state }: any, isCompletedAll: boolean) {
-
-        axios.all( state.todos.map( (v: any) => TodoApi._put(v.id, { isDone: isCompletedAll }) ))
-            .then((res: any)=>{
-                commit(TODO.ALL_COMPLETE, res );
-            });
     }
 }
 
