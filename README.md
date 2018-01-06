@@ -2,6 +2,12 @@
 
 > Todo App with Vuejs and Vuex.
 
+## Features
+ - Vue 2.5.2
+ - Vuex 3.0.1
+ - Typescript 2.6.2
+ - Karma + Mocha
+
 ## Build Setup
 
 ``` bash
